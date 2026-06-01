@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Вайбкодинг для Кирилла — собери свою команду AI-помощников за месяц</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ---- page-specific layout ---- */
+
+/* HERO */
+.hero { padding-top: clamp(120px, 18vh, 190px); padding-bottom: clamp(60px, 8vh, 90px); }
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(32px, 5vw, 64px);
+  align-items: center;
+}
+@media (max-width: 980px){ .hero-grid { grid-template-columns: 1fr; gap: 40px; } }
+.hero h1 {
+  font-size: clamp(36px, 5.3vw, 64px);
+  font-weight: 700;
+  margin: 22px 0 24px;
+}
+.hero h1 .hl {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero { overflow: hidden; }
+.hero-glow { top: -18%; left: -14%; }
+/* layered proof photo behind terminal */
+.hero-stack { position: relative; }
+.hero-photo {
+  position: absolute; z-index: 0;
+  top: -34px; right: -26px; width: 64%;
+  aspect-ratio: 4/3; border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--border);
+  transform: rotate(3deg);
+  box-shadow: 0 40px 90px -40px rgba(0,0,0,0.8);
+  opacity: 0.85;
+}
+.hero-photo img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.4) brightness(0.7) contrast(1.1); }
+.hero-photo::after { content:''; position:absolute; inset:0; background: linear-gradient(150deg, color-mix(in srgb, var(--accent) 55%, transparent), color-mix(in srgb, var(--accent-2) 40%, transparent)); mix-blend-mode: soft-light; }
+.hero-stack .window { position: relative; z-index: 1; }
+@media (max-width: 980px){ .hero-photo { display: none; } }
+.hero-sub { font-size: clamp(17px, 1.9vw, 21px); color: var(--ink-2); max-width: 34ch; line-height: 1.55; }
+.hero-social {
+  margin-top: 26px;
+  padding-left: 18px;
+  border-left: 2px solid var(--accent-line);
+  font-size: clamp(16px, 1.8vw, 19px);
+  color: var(--ink);
+  max-width: 40ch;
+  line-height: 1.5;
+}
+.hero-trust {
+  margin-top: 22px;
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  color: var(--ink-3);
+  max-width: 46ch;
+  line-height: 1.7;
+}
+.hero-cta { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 34px; }
+
+/* SECTION 2 — pain */
+.pain-trigger {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 12px;
+  padding: 20px 24px;
+  font-size: 17px;
+  color: var(--ink-2);
+  line-height: 1.55;
+  max-width: 60ch;
+  margin-bottom: 36px;
+}
+.pain-trigger b { color: var(--ink); font-weight: 600; }
+.pain-card .pc-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 18px;
+  display: block;
+}
+.pain-card .quote + .quote { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }
+
+/* SECTION 3 — cost */
+.cost-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: start; }
+@media (max-width: 900px){ .cost-grid { grid-template-columns: 1fr; } }
+.cost-row {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+}
+.cost-row:first-child { padding-top: 0; }
+.cost-num {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(34px, 5vw, 52px);
+  color: var(--accent);
+  line-height: 1;
+  white-space: nowrap;
+}
+.cost-num small { font-size: 0.42em; color: var(--ink-3); font-weight: 500; display: block; margin-top: 6px; letter-spacing: 0.02em; }
+.cost-row .lbl { color: var(--ink-2); font-size: 17px; }
+.cost-row .lbl b { color: var(--ink); font-weight: 600; }
+.cost-quote { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; }
+
+/* clock viz */
+.clockviz { display: grid; place-items: center; }
+.clockviz svg { width: 100%; max-width: 320px; height: auto; }
+
+/* SECTION 4 — dream */
+.dream-card {
+  position: relative;
+  background: linear-gradient(180deg, var(--accent-fill-2), var(--surface));
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius);
+  padding: 30px;
+}
+.dream-card .dc-tag {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: inline-flex; align-items: center; gap: 9px;
+}
+.dc-tag .ic { width: 18px; height: 18px; stroke: var(--accent); fill: none; stroke-width: 1.7; }
+
+/* SECTION 5 — program */
+.prog-card {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 30px;
+  transition: border-color .25s, background .25s;
+}
+.prog-card:hover { border-color: var(--accent-line); }
+.prog-idx {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 40px;
+  color: var(--accent);
+  line-height: 1;
+}
+.prog-card h3 { font-size: 23px; margin-bottom: 14px; }
+.prog-card .do { color: var(--ink-2); font-size: 16px; line-height: 1.55; margin-bottom: 18px; }
+.prog-out {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.chip {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--accent-soft);
+  background: var(--accent-fill);
+  border: 1px solid var(--accent-line);
+  border-radius: 7px;
+  padding: 6px 11px;
+}
+.chip.plain { color: var(--ink-2); background: var(--surface-2); border-color: var(--border-hi); }
+.no-code {
+  margin-top: 34px;
+  display: flex; align-items: flex-start; gap: 16px;
+  background: linear-gradient(135deg, var(--accent-fill), transparent);
+  border: 1px solid var(--accent-line);
+  border-radius: 14px;
+  padding: 24px 28px;
+}
+.no-code .ic { flex: none; width: 30px; height: 30px; stroke: var(--accent); fill: none; stroke-width: 1.6; }
+.no-code p { font-size: 18px; color: var(--ink); line-height: 1.5; }
+.no-code b { color: var(--accent); }
+/* stack glossary */
+.stack-gloss { display: grid; gap: 0; }
+.sg-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 18px; padding: 13px 0; border-top: 1px solid var(--border); }
+.sg-name { font-size: 14.5px; min-width: 190px; color: var(--ink); font-weight: 600; }
+.sg-name.accent { color: var(--accent); }
+.sg-desc { color: var(--ink-2); font-size: 15.5px; line-height: 1.5; flex: 1; min-width: 240px; }
+@media (max-width: 620px){ .sg-name { min-width: 100%; } }
+
+/* SECTION 6 — results checklist */
+.check-list { display: grid; gap: 4px; max-width: 860px; }
+.check-item {
+  display: grid; grid-template-columns: 30px 1fr; gap: 18px;
+  align-items: start;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: clamp(17px, 2vw, 21px);
+  color: var(--ink);
+  line-height: 1.45;
+}
+.check-item .ck {
+  width: 26px; height: 26px; margin-top: 3px;
+  border-radius: 7px;
+  border: 1px solid var(--accent-line);
+  background: var(--accent-fill);
+  display: grid; place-items: center;
+}
+.check-item .ck svg { width: 15px; height: 15px; stroke: var(--accent); fill: none; stroke-width: 2.4; }
+.check-item.star { font-weight: 700; }
+.check-item.star .ck { background: var(--accent); border-color: var(--accent); }
+.check-item.star .ck svg { stroke: var(--accent-ink); }
+.metric-pill {
+  margin-top: 30px;
+  display: inline-flex; align-items: center; gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--accent-line);
+  border-radius: 100px;
+  padding: 14px 24px 14px 18px;
+  font-size: 17px;
+}
+.metric-pill b { font-family: var(--font-display); color: var(--accent); font-size: 22px; }
+
+/* SECTION 7 — objections */
+.obj { border-top: 1px solid var(--border); padding: 30px 0; display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 36px; }
+.obj:last-child { border-bottom: 1px solid var(--border); }
+@media (max-width: 860px){ .obj { grid-template-columns: 1fr; gap: 16px; } }
+.obj-q { font-family: var(--font-display); font-weight: 600; font-size: clamp(22px, 2.6vw, 30px); color: var(--ink); line-height: 1.15; }
+.obj-q .x { color: var(--accent); }
+.obj-a { color: var(--ink-2); font-size: 17px; line-height: 1.6; }
+.obj-a .qq { color: var(--ink); border-left: 2px solid var(--accent-line); padding-left: 16px; display: block; margin: 4px 0 16px; font-style: italic; }
+.obj-a b { color: var(--ink); font-weight: 600; }
+
+/* SECTION 8 — why now */
+.whynow-hero {
+  background: linear-gradient(135deg, var(--accent-fill), var(--surface));
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius);
+  padding: clamp(30px, 5vw, 50px);
+  margin-bottom: 26px;
+}
+.whynow-hero .big {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(24px, 3.6vw, 40px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.whynow-hero .big .hl { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* SECTION 9 — format / timeline */
+.tl { display: grid; gap: 0; }
+.tl-item {
+  display: grid; grid-template-columns: 150px 1fr; gap: 28px;
+  padding: 26px 0;
+  border-top: 1px solid var(--border);
+  align-items: start;
+}
+.tl-item:last-child { border-bottom: 1px solid var(--border); }
+@media (max-width: 760px){ .tl-item { grid-template-columns: 1fr; gap: 8px; } }
+.tl-when { font-family: var(--font-mono); font-size: 13px; color: var(--accent); letter-spacing: 0.04em; padding-top: 3px; }
+.tl-what b { color: var(--ink); font-weight: 600; }
+.tl-what { color: var(--ink-2); font-size: 17px; line-height: 1.55; }
+.window-window { margin-top: 32px; text-align: center; }
+.window-badge {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: var(--font-mono); font-size: 16px;
+  background: var(--surface); border: 1px solid var(--accent-line);
+  border-radius: 12px; padding: 16px 26px; color: var(--ink);
+}
+.window-badge b { color: var(--accent); }
+
+/* SECTION 10 — price */
+.price-hero {
+  text-align: center;
+  background: linear-gradient(180deg, var(--surface), var(--bg-2));
+  border: 1px solid var(--border-hi);
+  border-radius: 22px;
+  padding: clamp(36px, 6vw, 60px);
+  position: relative;
+  overflow: hidden;
+}
+.price-hero::after {
+  content: ''; position: absolute; inset: -40% 30% auto 30%; height: 60%;
+  background: radial-gradient(ellipse at center, var(--accent-glow), transparent 70%);
+  filter: blur(40px); pointer-events: none;
+}
+.price-big {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(54px, 10vw, 104px); line-height: 1;
+  color: var(--ink); position: relative;
+}
+.price-big .cur { color: var(--accent); font-size: 0.45em; vertical-align: top; margin-left: 6px; }
+.price-alt { font-family: var(--font-mono); color: var(--ink-3); font-size: 15px; margin-top: 14px; position: relative; }
+.cmp { width: 100%; border-collapse: collapse; margin-top: 14px; }
+.cmp th, .cmp td { text-align: left; padding: 18px 20px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.cmp th { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-4); font-weight: 500; }
+.cmp td { font-size: 15.5px; color: var(--ink-2); }
+.cmp .opt b { color: var(--ink); font-weight: 600; display: block; font-size: 16px; margin-bottom: 3px; font-family: var(--font-body); }
+.cmp .opt span { font-size: 13.5px; color: var(--ink-3); }
+.cmp .pr { font-family: var(--font-display); font-weight: 600; font-size: 19px; color: var(--ink); white-space: nowrap; }
+.cmp tr.ours { background: linear-gradient(90deg, var(--accent-fill), transparent); }
+.cmp tr.ours td { border-bottom-color: var(--accent-line); }
+.cmp tr.ours .opt b { color: var(--accent); }
+.cmp tr.ours .pr { color: var(--accent); }
+.extras-list { display: grid; gap: 12px; margin-top: 8px; }
+.extra-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 20px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; font-size: 15.5px; color: var(--ink-2);
+}
+.extra-row .tag { margin-left: auto; font-family: var(--font-mono); font-size: 13px; color: var(--ink); white-space: nowrap; }
+.extra-row b { color: var(--ink); font-weight: 600; }
+.honest {
+  margin-top: 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 12px;
+  padding: 28px 32px;
+}
+.honest .sig { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; font-family: var(--font-mono); font-size: 13px; color: var(--accent); letter-spacing: 0.04em; }
+.honest p { color: var(--ink-2); font-size: 16.5px; line-height: 1.6; }
+.honest b { color: var(--ink); font-weight: 600; }
+
+/* SECTION 11 — final */
+.final { text-align: center; padding-bottom: clamp(90px, 14vh, 170px); }
+.final-promise {
+  max-width: 880px; margin: 0 auto;
+  font-size: clamp(18px, 2.2vw, 24px);
+  color: var(--ink-2); line-height: 1.55; text-wrap: pretty;
+  border-left: 2px solid var(--accent-line);
+  padding-left: 26px; text-align: left;
+}
+.final-close {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: clamp(28px, 4.5vw, 52px); line-height: 1.1;
+  margin: 50px auto 36px; max-width: 18ch; text-wrap: balance;
+}
+.final-close .hl { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 40px var(--pad);
+  text-align: center;
+  color: var(--ink-4);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  position: relative; z-index: 1;
+}
+</style>
+<!-- ============ THEME C · НЕОН (electric / brutal) ============ -->
+<style id="theme-neon">
+:root {
+  --bg:        #06070a;
+  --bg-2:      #0a0c11;
+  --surface:   #0e1116;
+  --surface-2: #141821;
+  --surface-hi:#1b2029;
+  --border:    rgba(255,255,255,0.10);
+  --border-hi: rgba(255,255,255,0.20);
+  --ink:       #eef2f0;
+  --ink-2:     #a9b0ad;
+  --ink-3:     #6f7672;
+  --ink-4:     #454b48;
+  --accent:    #c6ff3d;
+  --accent-2:  #2de2c8;
+  --accent-ink:#0a1206;
+  --radius:    6px;
+}
+/* brutalist: sharp corners, tight uppercase display */
+.card, .price-hero, .dream-card, .pain-trigger, .cost-quote, .no-code,
+.whynow-hero, .extra-row, .honest, .metric-pill, .window-badge, .kicker-pill,
+.media, .window, .hero-photo, .term-body, .chip { border-radius: 6px; }
+.btn { border-radius: 8px; }
+.hero h1, h2 { text-transform: uppercase; letter-spacing: -0.01em; }
+.hero h1 { font-weight: 700; }
+/* neon glow on key accents */
+.hero h1 .hl, .whynow-hero .big .hl, .final-close .hl, .gtext {
+  filter: drop-shadow(0 0 16px color-mix(in srgb, var(--accent) 40%, transparent));
+}
+.btn-grad { color: var(--accent-ink); box-shadow: 0 0 0 1px var(--accent), 0 0 34px -6px var(--accent-glow); }
+.btn-grad:hover { box-shadow: 0 0 0 1px var(--accent-soft), 0 0 48px -4px var(--accent-glow); }
+.btn-primary { color: var(--accent-ink); }
+/* tinted neon grid */
+body::before {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--accent) 8%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--accent) 8%, transparent) 1px, transparent 1px);
+  opacity: 0.45;
+}
+.nav.scrolled { background: rgba(6,7,10,0.78); }
+/* accent edge on cards */
+.card:hover, .prog-card:hover { border-color: color-mix(in srgb, var(--accent) 55%, transparent); box-shadow: 0 0 30px -16px var(--accent); }
+.eyebrow::before { background: var(--accent); }
+</style>
+</head>
+<body>
+<template id="__bundler_thumbnail">
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="tg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c6ff3d"/>
+      <stop offset="1" stop-color="#2de2c8"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="14" fill="#06070a"/>
+  <text x="50" y="62" font-family="monospace" font-size="40" font-weight="700" text-anchor="middle" fill="url(#tg)">&gt;_</text>
+</svg>
+</template>
+
+<!-- ============ NAV ============ -->
+<nav class="nav" id="nav">
+  <div class="brand">
+    <span class="glyph">К</span>
+    <span>вайбкодинг<span class="t-dim">.под</span>тебя</span>
+  </div>
+  <a href="#price" class="btn btn-grad nav-cta">Забронировать окно</a>
+</nav>
+
+<!-- ============ 1 · HERO ============ -->
+<section class="hero" data-screen-label="Hero">
+  <div class="hero-glow glow"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="kicker-pill reveal"><span class="dot"></span>Ты сам сказал — ты что-то упускаешь. За месяц закроем этот разрыв.</div>
+      <h1 class="reveal" data-d="1">За месяц ты соберёшь свою <span class="hl">команду AI-помощников</span> — и перестанешь делать руками то, за что уже заплатил другим.</h1>
+      <p class="hero-sub reveal" data-d="2">4 встречи один-на-один. С нуля до рабочих инструментов, которые встанут в твою неделю: разбор звонков, генерация КП, контент-идеи, AI-ментор по твоему продукту.</p>
+      <p class="hero-social reveal" data-d="2">И ты — не тот, кто догоняет тренд, а эксперт, который показывает клиентам, что в коммуникации уже можно автоматизировать.</p>
+      <p class="hero-trust reveal" data-d="3">// не «курс про нейросети вообще». Кастомная программа под твой бизнес — звонки Влада, корп-сегмент, нетворкинг.</p>
+      <div class="hero-cta reveal" data-d="3">
+        <a href="#price" class="btn btn-grad">Хочу так <span class="arrow">→</span></a>
+        <a href="#program" class="btn btn-ghost">Что соберём за 4 встречи</a>
+      </div>
+    </div>
+
+    <div class="reveal hero-stack" data-d="2" id="heroTermWrap">
+      <div class="hero-photo"><img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=900&q=70&auto=format" alt="" loading="lazy"></div>
+      <div class="window" id="heroTerm">
+        <div class="window-bar">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="window-title">claude-code — kirill@studio</span>
+          <span class="window-tag">● 3 subagents</span>
+        </div>
+        <div class="term-body" id="termBody"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ticker -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ti"><b>/sales-call-analyzer</b> разбор звонков</span>
+    <span class="ti"><b>/kp-generator</b> КП за 15 минут</span>
+    <span class="ti"><b>/content-generator</b> сценарии рилсов</span>
+    <span class="ti"><b>/offer-challenger</b> челлендж оффера</span>
+    <span class="ti"><b>/mentor</b> AI-ментор</span>
+    <span class="ti"><b>/advisor</b></span>
+    <span class="ti"><b>/competitor</b></span>
+    <span class="ti"><b>Telegram-бот</b> без компьютера</span>
+    <span class="ti"><b>/sales-call-analyzer</b> разбор звонков</span>
+    <span class="ti"><b>/kp-generator</b> КП за 15 минут</span>
+    <span class="ti"><b>/content-generator</b> сценарии рилсов</span>
+    <span class="ti"><b>/offer-challenger</b> челлендж оффера</span>
+    <span class="ti"><b>/mentor</b> AI-ментор</span>
+    <span class="ti"><b>/advisor</b></span>
+    <span class="ti"><b>/competitor</b></span>
+    <span class="ti"><b>Telegram-бот</b> без компьютера</span>
+  </div>
+</div>
+
+<!-- ============ 2 · PAIN ============ -->
+<section data-screen-label="Узнаёшь?">
+  <div class="wrap">
+    <div class="section-num reveal">02 — узнаёшь?</div>
+    <div class="pain-trigger reveal" data-d="1">Помнишь июнь, когда надо было сделать <b>7 рилсов</b> — и ты понял, что садиться и придумывать опять придётся самому? Вот с этого момента.</div>
+    <h2 class="reveal" data-d="1">Сейчас всё это сидит на&nbsp;тебе.</h2>
+    <div class="media reveal" data-d="1" style="height:300px; margin-top:34px">
+      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1600&q=70&auto=format" alt="Рабочая неделя" loading="lazy">
+      <span class="cap">твоя неделя сейчас — всё вручную</span>
+    </div>
+    <div class="grid cols-3" style="margin-top:24px">
+      <div class="card pain-card reveal" data-d="1">
+        <span class="pc-label">Звонки Влада</span>
+        <p class="quote"><span class="qmark">«</span>Я себя слабо чувствую в позиции РОПа. Мне приходится выполнять задачи РОПа, при том что я не сильный РОП. Точнее — я вообще не РОП.»</p>
+        <span class="tc">19:40</span>
+        <p class="quote"><span class="qmark">«</span>Я отдал задачи продажника не для того, чтобы взять себе задачи РОПа.»</p>
+        <span class="tc">21:22</span>
+      </div>
+      <div class="card pain-card reveal" data-d="2">
+        <span class="pc-label">Контент</span>
+        <p class="quote"><span class="qmark">«</span>Я покупал услуги СММщика не для того, чтобы генерировать контент самому.»</p>
+        <span class="tc">29:32</span>
+        <p class="quote"><span class="qmark">«</span>Я должен сесть и налутать эти мысли… это творческая работа, которой нужно заниматься, и это время.»</p>
+        <span class="tc">12:43</span>
+      </div>
+      <div class="card pain-card reveal" data-d="3">
+        <span class="pc-label">Зачем всё это</span>
+        <p class="quote"><span class="qmark">«</span>Мой главный результат — это деньги в кассе. Это продажа моего продукта.»</p>
+        <span class="tc">17:56</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3 · COST ============ -->
+<section style="background:linear-gradient(180deg,transparent,var(--bg-2),transparent)" data-screen-label="Цена бездействия">
+  <div class="wrap">
+    <div class="section-num reveal">03 — сколько это стоит тебе сейчас</div>
+    <h2 class="reveal" data-d="1" style="max-width:20ch">Это не «неудобно». Это часы каждую неделю и контроль, который не&nbsp;отдать.</h2>
+    <div class="cost-grid" style="margin-top:46px">
+      <div>
+        <div class="cost-row reveal" data-d="1">
+          <div class="cost-num">3–5<small>часов / неделю</small></div>
+          <div class="lbl"><b>Разбор звонков Влада.</b> Слушаешь, размечаешь, формулируешь обратную связь — руками.</div>
+        </div>
+        <div class="cost-row reveal" data-d="2">
+          <div class="cost-num">1–2<small>часа / неделю</small></div>
+          <div class="lbl"><b>Контент-идеи.</b> «Высосать из пальца» — каждую неделю заново.</div>
+        </div>
+        <div class="cost-row reveal" data-d="3">
+          <div class="cost-num" style="font-size:clamp(26px,3.4vw,36px)">∞<small>не делегировать</small></div>
+          <div class="lbl"><b>Контроль, который не отдать.</b> Он всегда возвращается к тебе.</div>
+        </div>
+      </div>
+      <div class="cost-quote reveal" data-d="2">
+        <p class="quote" style="font-size:20px"><span class="qmark">«</span>Невозможно три дня ничего не делать, потом включить все таблицы и схватиться за голову от того, сколько чего, кто, какой лид, как он провёлся.»</p>
+        <span class="tc">26:16</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4 · DREAM ============ -->
+<section data-screen-label="Как будет">
+  <div class="wrap">
+    <div class="section-num reveal">04 — как будет</div>
+    <h2 class="reveal" data-d="1" style="max-width:18ch">Ты описал, как это должно работать. Мы это и&nbsp;соберём.</h2>
+    <div class="media bright reveal" data-d="1" style="height:320px; margin-top:34px">
+      <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&q=75&auto=format" alt="Сводка-дашборд" loading="lazy">
+      <span class="cap">сводка прилетает сама — ты только решаешь</span>
+    </div>
+    <div class="grid cols-3" style="margin-top:24px">
+      <div class="dream-card reveal" data-d="1">
+        <span class="dc-tag"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3v18M5 10l7-7 7 7"/></svg>AI-РОП</span>
+        <p class="quote">Проведён созвон → выгрузка записи → обработка нейронкой → нейронка говорит: вот здесь было хорошо, вот здесь плохо → информация сразу Владу. А если вижу, что надо переслушать самому — тогда включаюсь.</p>
+        <span class="tc">20:53–21:40</span>
+      </div>
+      <div class="dream-card reveal" data-d="2">
+        <span class="dc-tag"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18"/></svg>Контент</span>
+        <p class="quote">Каждую неделю прилетала сводка трендов: кто что делает, какая реакция. А в идеале — сразу готовые сценарии. Типа раз, два, три — бери и снимай.</p>
+        <span class="tc">11:01–11:23</span>
+      </div>
+      <div class="dream-card reveal" data-d="3">
+        <span class="dc-tag"><svg class="ic" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Корп-сегмент</span>
+        <p class="quote">Записываю разговор, вгружаю нейронку и говорю: какую программу из моих мы можем предложить, что нужно доделать.</p>
+        <span class="tc">07:34</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5 · PROGRAM ============ -->
+<section id="program" style="background:linear-gradient(180deg,transparent,var(--bg-2),transparent)" data-screen-label="Программа">
+  <div class="wrap">
+    <div class="eyebrow reveal">механизм</div>
+    <h2 class="reveal" data-d="1" style="margin-top:18px">4 встречи — твой полный AI-стек под&nbsp;ключ.</h2>
+    <p class="reveal" data-d="1" style="margin-top:16px; color:var(--ink-2); font-size:17px; line-height:1.55; max-width:64ch">В каждой встрече — короткий блок теории, чтобы инструменты не были магией: что такое LLM и чем отличаются модели (Claude, GPT, Gemini), чем работа в терминале отличается от чата, что такое скилл, агент и MCP. Дальше — практика: собираем инструменты руками.</p>
+    <div class="grid" style="margin-top:44px; gap:18px">
+      <div class="prog-card reveal" data-d="1">
+        <div class="prog-idx">01</div>
+        <div>
+          <h3>Старт + первые помощники</h3>
+          <p class="do">Ставим Claude Code, разбираемся в основах, запускаем готовые <span class="mono accent">/advisor</span> и <span class="mono accent">/competitor</span>. Сам сгенеришь макет презентации под корп-клиента.</p>
+          <div class="prog-out">
+            <span class="chip plain">рабочий стек</span>
+            <span class="chip">/advisor</span>
+            <span class="chip">/competitor</span>
+            <span class="chip plain">первый макет руками</span>
+          </div>
+        </div>
+      </div>
+      <div class="prog-card reveal" data-d="1">
+        <div class="prog-idx">02</div>
+        <div>
+          <h3>Генератор КП + первый свой скилл</h3>
+          <p class="do">Генерим КП под реальную компанию за 15 минут вместо 2 часов. Собираешь свой первый простой скилл.</p>
+          <div class="prog-out">
+            <span class="chip">/kp-generator</span>
+            <span class="chip plain">твой первый собственный скилл</span>
+          </div>
+        </div>
+      </div>
+      <div class="prog-card reveal" data-d="2">
+        <div class="prog-idx">03</div>
+        <div>
+          <h3>Разбор звонков + челлендж оффера</h3>
+          <p class="do">Собираем разбор звонков Влада (бриф продажнику) и скилл, который на основе кастдева челленджит твоё предложение.</p>
+          <div class="prog-out">
+            <span class="chip">/sales-call-analyzer</span>
+            <span class="chip">/offer-challenger</span>
+          </div>
+        </div>
+      </div>
+      <div class="prog-card reveal" data-d="2">
+        <div class="prog-idx">04</div>
+        <div>
+          <h3>Контент, бот и AI-ментор</h3>
+          <p class="do">Собираем генератор контент-сценариев, заводишь Telegram-бот руками, собираем <span class="mono accent">/mentor</span> по практикам коммуникации.</p>
+          <div class="prog-out">
+            <span class="chip">/content-generator</span>
+            <span class="chip">Telegram-бот</span>
+            <span class="chip">/mentor</span>
+            <span class="chip plain">+ подарок-пак скиллов</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal" data-d="1" style="margin-top:28px; padding:24px 30px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius)">
+      <div style="font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); margin-bottom:8px">Итого у тебя после программы — весь стек</div>
+      <div class="stack-gloss">
+        <div class="sg-row"><span class="sg-name mono accent">/advisor</span><span class="sg-desc">разбирает входящий запрос клиента → стратегия: брать / как продать / что предложить</span></div>
+        <div class="sg-row"><span class="sg-name mono accent">/competitor</span><span class="sg-desc">карта рынка и конкурентов одной командой</span></div>
+        <div class="sg-row"><span class="sg-name mono accent">/kp-generator</span><span class="sg-desc">КП под корп-клиента за 15 минут, адаптировано под отрасль</span></div>
+        <div class="sg-row"><span class="sg-name">твой первый скилл</span><span class="sg-desc">простой скилл, собранный твоими руками (напр. черновик письма после звонка)</span></div>
+        <div class="sg-row"><span class="sg-name mono accent">/sales-call-analyzer</span><span class="sg-desc">разбирает звонок Влада: что хорошо, где провал, готовый бриф продажнику</span></div>
+        <div class="sg-row"><span class="sg-name mono accent">/offer-challenger</span><span class="sg-desc">на основе кастдева челленджит твоё предложение и усиливает оффер</span></div>
+        <div class="sg-row"><span class="sg-name mono accent">/content-generator</span><span class="sg-desc">тренды конкурентов → готовые сценарии рилсов и контент-план</span></div>
+        <div class="sg-row"><span class="sg-name mono accent">/mentor</span><span class="sg-desc">эксперт-панель подсказывает лучшие практики по твоему продукту коммуникации</span></div>
+        <div class="sg-row"><span class="sg-name">Telegram-бот</span><span class="sg-desc">запускает нужный скилл сам, без открытия компьютера</span></div>
+        <div class="sg-row"><span class="sg-name">подарок-пак</span><span class="sg-desc">expert-arena, deep-research и другие готовые скиллы сверх программы</span></div>
+      </div>
+    </div>
+
+    <div class="no-code reveal" data-d="1">
+      <svg class="ic" viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+      <p>Ты <b>не пишешь код</b>. Код пишет сам Claude. Ты словами описываешь, что нужно — он собирает инструмент.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6 · RESULTS ============ -->
+<section data-screen-label="Что будешь уметь">
+  <div class="wrap">
+    <div class="section-num reveal">06 — что ты будешь уметь после</div>
+    <h2 class="reveal" data-d="1">Через месяц ты сможешь сам:</h2>
+    <div class="check-list" style="margin-top:36px">
+      <div class="check-item reveal"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span>Разбирать звонок продажника одной командой и отдавать ему готовый бриф — вместо 3–5 часов в неделю.</span></div>
+      <div class="check-item reveal"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span>Генерировать КП под корп-клиента за 15 минут и адаптировать под отрасль.</span></div>
+      <div class="check-item reveal"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span>Получать готовые сценарии контента, а не «лутать из пальца».</span></div>
+      <div class="check-item reveal"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span>Прогонять кастдев через AI и челленджить своё предложение тем, что клиент реально сказал.</span></div>
+      <div class="check-item reveal"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span>Запускать AI-ментора, который подсказывает лучшие практики по твоему продукту.</span></div>
+      <div class="check-item reveal"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span>Завести Telegram-бот, который делает это сам, без открытия компьютера.</span></div>
+      <div class="check-item reveal"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span>Разбирать входящий запрос клиента и за минуты получать стратегию: брать / как продать / что предложить.</span></div>
+      <div class="check-item reveal"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span>Получать карту рынка и конкурентов одной командой.</span></div>
+      <div class="check-item reveal"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span>Собирать презентации и материалы под корп-клиента текстом — без дизайнера.</span></div>
+      <div class="check-item reveal"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span>Понимать и запускать агентов — отдельных AI-исполнителей и их команды (субагенты, пайплайны).</span></div>
+      <div class="check-item star reveal"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><span>Собрать любой новый скилл самому — без меня.</span></div>
+    </div>
+    <div class="metric-pill reveal" data-d="1"><b>2–3 часа</b> в неделю освобождается — на стратегию вместо контроля.</div>
+  </div>
+</section>
+
+<!-- ============ 7 · OBJECTIONS ============ -->
+<section style="background:linear-gradient(180deg,transparent,var(--bg-2),transparent)" data-screen-label="Тревоги">
+  <div class="wrap">
+    <div class="section-num reveal">07 — а что меня останавливало</div>
+    <h2 class="reveal" data-d="1">Снимаем тревоги — твоими же&nbsp;словами.</h2>
+    <div style="margin-top:40px">
+      <div class="obj reveal">
+        <div class="obj-q"><span class="x">«</span>AI-контент = ерунда»</div>
+        <div class="obj-a">
+          <span class="qq">«Контент — ерунда. Вариант моего контента — совсем плохо. Это надо перелопачивать и переписывать.» (06:08)</span>
+          Тот опыт был на <b>бесплатной модели и без настройки</b>. Мы работаем на свежем Claude + твоя база знаний и твой голос. Сравнишь на своих данных в первой же встрече.
+        </div>
+      </div>
+      <div class="obj reveal">
+        <div class="obj-q"><span class="x">«</span>Я не программист»</div>
+        <div class="obj-a">И не нужно. <b>Код пишет Claude</b>, ты описываешь результат словами. Ничего не устанавливаешь вслепую — на первой встрече ставим стек вместе.</div>
+      </div>
+      <div class="obj reveal">
+        <div class="obj-q"><span class="x">«</span>Нет времени»</div>
+        <div class="obj-a">
+          <span class="qq">«Я бы воспринимал это как полноценное обучение… поставить в расписании конкретно: с этого по это время изучаю нейронку.» (39:19) → «С 15 июня до 13 июля, пока не уехал в отпуск.» (40:25)</span>
+          Ровно под твоё окно. <b>4 встречи + час поддержки в неделю.</b>
+        </div>
+      </div>
+      <div class="obj reveal">
+        <div class="obj-q"><span class="x">«</span>И так привычно — как-нибудь справляюсь»</div>
+        <div class="obj-a">
+          <span class="qq">«Мне казалось, что если я отдаю это продажнику, то продажник закрывает всё. А по факту продажник — это говорящая голова.» (27:02)</span>
+          Ты уже один раз делегировал — и всё равно тащишь контроль. Разница в том, что инструменту <b>не нужна мотивация</b>, он не бросает на полпути и не просит поднять ставку. Контроль остаётся у тебя — а рутина уходит. Это не «ещё одна штука, которой надо управлять», это <b>снятие управления</b>.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8 · WHY NOW ============ -->
+<section data-screen-label="Почему сейчас">
+  <div class="wrap">
+    <div class="section-num reveal">08 — почему сейчас</div>
+    <h2 class="reveal" data-d="1">Ты уже видел, что это работает. Пора собрать под&nbsp;себя.</h2>
+    <div class="grid cols-2 reveal" data-d="1" style="margin-top:34px; align-items:stretch">
+      <div class="whynow-hero" style="margin:0">
+        <div class="big">«Я тебе показывал эту возможность раньше — <span class="hl gtext">теперь делаем её твоей.</span>»</div>
+      </div>
+      <div class="media band" style="min-height:240px">
+        <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1100&q=75&auto=format" alt="Тренд" loading="lazy">
+        <span class="cap">рынок уже там — Рак, Лазарева</span>
+      </div>
+    </div>
+    <div class="grid cols-3">
+      <div class="card reveal" data-d="1">
+        <p class="quote">Рак рассказал — его помощник наполняет сайт контентом через AI, без человека.</p>
+        <span class="tc">30:40</span>
+      </div>
+      <div class="card reveal" data-d="2">
+        <p class="quote">У Лазаревой контент сгенерирован нейронками — красиво, современно, пробивает баннерную слепоту.</p>
+        <span class="tc">35:46</span>
+      </div>
+      <div class="card reveal" data-d="3">
+        <p class="quote">Я понял, что что-то теряю, что-то упускаю. А что если это более эффективный, более живой, более современный метод?</p>
+        <span class="tc">31:28</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9 · FORMAT ============ -->
+<section style="background:linear-gradient(180deg,transparent,var(--bg-2),transparent)" data-screen-label="Формат">
+  <div class="wrap">
+    <div class="section-num reveal">09 — формат и что входит</div>
+    <h2 class="reveal" data-d="1">Что входит</h2>
+    <div class="tl" style="margin-top:36px">
+      <div class="tl-item reveal"><div class="tl-when">4 встречи · 2–3 ч</div><div class="tl-what"><b>Один-на-один, под твои реальные задачи.</b> Первая — длиннее, ставим стек.</div></div>
+      <div class="tl-item reveal"><div class="tl-when">+1 ч / неделю</div><div class="tl-what"><b>Час поддержки между встречами.</b> Можно отдельным созвоном, не только перепиской. Плюс точечные ответы по ходу.</div></div>
+      <div class="tl-item reveal"><div class="tl-when">через месяц</div><div class="tl-what"><b>Ревью-звонок после финала:</b> что зашло, что внедрил, что собирать дальше.</div></div>
+      <div class="tl-item reveal"><div class="tl-when">кастом</div><div class="tl-what"><b>Все инструменты на твоих данных</b> — звонки, кастдевы, корп-сегмент, нетворкинг. С нуля до рабочего результата.</div></div>
+      <div class="tl-item reveal"><div class="tl-when">подарок</div><div class="tl-what"><b>Набор популярных готовых скиллов</b> сверх программы.</div></div>
+    </div>
+    <div class="window-window">
+      <span class="window-badge reveal"><svg style="width:20px;height:20px;stroke:var(--accent);fill:none;stroke-width:1.8" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Окно: <b>15 июня — 13 июля 2026</b></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10 · PRICE ============ -->
+<section id="price" data-screen-label="Цена">
+  <div class="wrap">
+    <div class="eyebrow reveal">оффер</div>
+    <h2 class="reveal" data-d="1" style="margin-top:18px; text-align:center; margin-left:auto; margin-right:auto">Сколько это стоит</h2>
+
+    <div class="price-hero reveal" data-d="1" style="margin-top:34px">
+      <div class="price-big">1 600<span class="cur">BYN</span></div>
+      <div class="price-alt">≈ 42 000 ₽ · ≈ $580 — курсы приблизительны, уточняются на дату</div>
+      <!-- booking → Telegram @ilyarublevsky с предзаполненной заявкой -->
+      <a href="https://t.me/ilyarublevsky?text=Привет%2C%20Илья!%20Беру%20программу%20вайбкодинга%2C%20бронирую%20окно%2015.06-13.07" target="_blank" rel="noopener" class="btn btn-grad" style="margin-top:30px">Беру. Стартуем 15 июня <span class="arrow">→</span></a>
+    </div>
+
+    <h3 class="reveal" style="font-size:22px; margin-top:60px; margin-bottom:18px">Где ты сейчас на рынке</h3>
+    <div class="reveal" data-d="1" style="overflow-x:auto">
+      <table class="cmp">
+        <thead><tr><th>Вариант</th><th>Что это</th><th>Цена</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="opt"><b>Индивидуальный авторский курс</b><span>Школа Филимонова</span></td>
+            <td>8 встреч × 1 ч, адаптация под уровень</td>
+            <td class="pr">≈ 3 600 BYN<br><span style="font-family:var(--font-mono);font-size:12px;color:var(--ink-4)">94 500 ₽</span></td>
+          </tr>
+          <tr>
+            <td class="opt"><b>Групповые курсы с ментором</b><span>Нетология, ВШЭ, Skillbox</span></td>
+            <td>поток + куратор, без кастома под тебя</td>
+            <td class="pr">≈ 1 700–2 500 BYN<br><span style="font-family:var(--font-mono);font-size:12px;color:var(--ink-4)">44 000–65 000 ₽</span></td>
+          </tr>
+          <tr>
+            <td class="opt"><b>Премиум-программы по вайбкодингу</b><span>рыночный потолок</span></td>
+            <td>потоковые интенсивы топ-школ</td>
+            <td class="pr">до ≈ 5 600 BYN<br><span style="font-family:var(--font-mono);font-size:12px;color:var(--ink-4)">до 146 000 ₽</span></td>
+          </tr>
+          <tr class="ours">
+            <td class="opt"><b>Эта программа</b><span>для тебя</span></td>
+            <td>полностью кастом one-to-one под твой бизнес, с нуля до результата, + час поддержки в неделю + ревью через месяц</td>
+            <td class="pr">1 600 BYN<br><span style="font-family:var(--font-mono);font-size:12px;color:var(--accent-soft)">≈ 42 000 ₽</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="reveal" style="font-size:22px; margin-top:54px; margin-bottom:18px">Что докупаешь сам (не входит в цену)</h3>
+    <div class="extras-list reveal" data-d="1">
+      <div class="extra-row"><svg style="width:20px;height:20px;stroke:var(--accent);fill:none;stroke-width:1.7" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg><span><b>Claude Code Max</b> — основной инструмент</span><span class="tag">~$100 / мес</span></div>
+      <div class="extra-row"><svg style="width:20px;height:20px;stroke:var(--accent);fill:none;stroke-width:1.7" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg><span><b>VPN</b> — если нужен для доступа</span><span class="tag">по необходимости</span></div>
+      <div class="extra-row"><svg style="width:20px;height:20px;stroke:var(--accent);fill:none;stroke-width:1.7" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4"/></svg><span><b>Wispr Flow</b> — голосовой ввод</span><span class="tag">опционально</span></div>
+    </div>
+
+    <div class="honest reveal" data-d="1">
+      <div class="sig"><span class="glyph" style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--accent-soft),var(--accent-deep));display:grid;place-items:center;color:var(--accent-ink);font-weight:700;font-size:13px;font-family:var(--font-display)">И</span>честно — от Ильи</div>
+      <p>Как консалтинг я работаю с тобой за <b>$100 за 2 часа</b> ($50/час). Сложи всё время: 4 встречи по 2–3 часа + час поддержки каждую неделю + ревью через месяц — это <b>13–17 часов по моей ставке ≈ 1 800–2 300 BYN</b>. Цена программы — 1 600 BYN, и сверху ты получаешь инструменты, собранные под тебя с нуля. Дружеская и осознанная — за объём поддержки, который я отдаю.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11 · FINAL ============ -->
+<section class="final" id="contact" data-screen-label="Финал">
+  <div class="wrap">
+    <div class="eyebrow reveal" style="justify-content:center">что ты получишь на выходе</div>
+    <p class="final-promise reveal" data-d="1" style="margin-top:30px">«Чтобы этот продукт помог продажам корп-сегмента: обрабатывал звонки, давал нужный фидбэк, выстраивал программу. Чтобы я мог внедрять это внутри корпоративной деятельности — собирать обратную связь быстрее, давать гипотезы руководству. И играть на опережение: показывать, как нейронки помогают людям в коммуникации. Вплоть до ассистента-тренера, который улучшает мой продукт — говорит: это хорошо, но можно лучше.»</p>
+    <div class="final-close reveal" data-d="1">Через месяц ты не догоняешь тренд. Ты — тот, кто <span class="hl">показывает другим,</span> как это делается.</div>
+    <a href="https://t.me/ilyarublevsky?text=Привет%2C%20Илья!%20Беру%20программу%20вайбкодинга%2C%20бронирую%20окно%2015.06-13.07" target="_blank" rel="noopener" class="btn btn-grad reveal" data-d="2" style="font-size:19px;padding:20px 34px">Забронировать 15 июня — 13 июля <span class="arrow">→</span></a>
+    <p class="reveal" data-d="2" style="margin-top:20px;font-family:var(--font-mono);font-size:13px;color:var(--ink-4)">// заявка уходит тебе в личку <a href="https://t.me/ilyarublevsky?text=Привет%2C%20Илья!%20Беру%20программу%20вайбкодинга%2C%20бронирую%20окно%2015.06-13.07" target="_blank" rel="noopener" style="color:var(--accent)">@ilyarublevsky</a> — окно ограничено одним потоком</p>
+  </div>
+</section>
+
+<footer>
+  вайбкодинг.под_тебя · персональная программа · 15.06 — 13.07.2026
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
